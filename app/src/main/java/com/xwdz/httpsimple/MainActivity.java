@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url("ur")
                 .tag("TAG")
+                .get()
                 .addParam("key", "value")
                 .build();
 
