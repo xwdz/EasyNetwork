@@ -62,14 +62,5 @@ public abstract class StringEasyCallbackImpl implements IBaseEasyCallback {
         }
     }
 
-
-
-    @Override
-    public void onFailure(Throwable error) {
-
-    }
-
-
     public abstract void onSuccessful(String data);
-
 }

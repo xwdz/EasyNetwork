@@ -75,10 +75,6 @@ public abstract class FileEasyCallbackImpl extends BaseEasyCallbackImpl {
         }
     }
 
-    @Override
-    public void onFailure(Throwable error) {
-    }
-
     public abstract void onProgressUpdated(int currentLength, int totalLength, int percent);
 
     public abstract void onSuccessful(File file);
