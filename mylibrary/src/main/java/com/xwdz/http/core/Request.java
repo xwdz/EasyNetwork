@@ -1,12 +1,9 @@
 package com.xwdz.http.core;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.xwdz.http.Util;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * @author xingwei.huang (xwdz9989@gmail.com)
@@ -39,26 +36,8 @@ public class Request implements Serializable {
     @Override
     public String toString() {
         return "url='" + url + '\'' +
-                ", params=" + getPostParams(params);
+                ", params=" + Util.getPostParams(params);
     }
-
-    public static String getPostParams(HashMap<String, String> params) {
-        if (params.isEmpty()) {
-            return "";
-        }
-
-        JSONObject jsonObject = new JSONObject();
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            try {
-                jsonObject.put(entry.getKey(), entry.getValue());
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return jsonObject.toString();
-    }
-
 
     public static class Builder {
 
@@ -83,12 +62,17 @@ public class Request implements Serializable {
 
         public Builder url(String url) {
             this.url = url;
-            this.method = Method.GET;
+            get();
             return this;
         }
 
-        public Builder method(Method method) {
-            this.method = method;
+        public Builder get() {
+            method = Method.GET;
+            return this;
+        }
+
+        public Builder post() {
+            method = Method.POST;
             return this;
         }
 
@@ -126,8 +110,8 @@ public class Request implements Serializable {
 
 
     public enum Method {
-        GET("GET"),
-        POST("POST");
+        GET("get"),
+        POST("post");
 
         String name;
 

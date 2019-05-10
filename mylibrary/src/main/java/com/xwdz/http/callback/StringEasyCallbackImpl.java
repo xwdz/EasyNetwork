@@ -14,7 +14,7 @@ import java.net.HttpURLConnection;
  * @author xingwei.huang (xwdz9989@gmail.com)
  * @since v1.0.0
  */
-public abstract class StringEasyCallbackImpl implements IBaseEasyCallback {
+public abstract class StringEasyCallbackImpl extends BaseEasyCallbackImpl {
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 

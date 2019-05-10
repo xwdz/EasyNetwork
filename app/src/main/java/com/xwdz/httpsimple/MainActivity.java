@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.xwdz.http.EasyNetwork;
 import com.xwdz.http.Util;
 import com.xwdz.http.callback.FileEasyCallbackImpl;
+import com.xwdz.http.callback.StringEasyCallbackImpl;
 import com.xwdz.http.core.Request;
 
 import java.io.File;
@@ -48,13 +49,9 @@ public class MainActivity extends AppCompatActivity {
         EasyNetwork.getImpl().cancelRequest("TAG");
     }
 
-
-    public void testGET() {
+    public void testGETDownloader() {
         Request request = new Request.Builder()
                 .url("http://shouji.360tpcdn.com/150707/2ef5e16e0b8b3135aa714ad9b56b9a3d/com.happyelements.AndroidAnimal_25.apk")
-                .method(Request.Method.GET)
-//                .addParam("key", "10926a9165054566b6df6a8410e45f08")
-//                .addParam("id", "0bd50c2f6e7f47d9a803d95011b8fe9c")
                 .tag("TAG")
                 .build();
 
@@ -78,20 +75,48 @@ public class MainActivity extends AppCompatActivity {
                         mLogView.setText(error.toString());
                     }
                 });
+    }
 
-//        EasyNetwork.getImpl()
-//                .sendRequest(request, new StringEasyCallbackImpl() {
-//                    @Override
-//                    public void onSuccessful(String data) {
-//                        mLogView.setText(data);
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Throwable error) {
-//                        super.onFailure(error);
-//                        Util.Logger.w("tag", "err:" + error.toString());
-//                        mLogView.setText(error.toString());
-//                    }
-//                });
+
+    public void testGET() {
+        Request request = new Request.Builder()
+                .url("ur")
+                .tag("TAG")
+                .addParam("key", "value")
+                .build();
+
+        EasyNetwork.getImpl().sendRequest(request, new StringEasyCallbackImpl() {
+            @Override
+            public void onSuccessful(String data) {
+                mLogView.setText(data);
+            }
+
+            @Override
+            public void onFailure(Throwable error) {
+                Util.Logger.w("tag", "err:" + error.toString());
+                mLogView.setText(error.toString());
+            }
+        });
+    }
+
+    public void testPOST(){
+        Request request = new Request.Builder()
+                .url("url")
+                .post()
+                .addParam("key", "value")
+                .build();
+
+        EasyNetwork.getImpl().sendRequest(request, new StringEasyCallbackImpl() {
+            @Override
+            public void onSuccessful(String data) {
+                mLogView.setText(data);
+            }
+
+            @Override
+            public void onFailure(Throwable error) {
+                Util.Logger.w("tag", "err:" + error.toString());
+                mLogView.setText(error.toString());
+            }
+        });
     }
 }

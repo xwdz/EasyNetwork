@@ -6,12 +6,17 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @author xingwei.huang (xwdz9989@gmail.com)
@@ -73,6 +78,24 @@ public class Util {
         }
         return new File(cachePath + File.separator + uniqueName);
     }
+
+    public static String getPostParams(HashMap<String, String> params) {
+        if (params.isEmpty()) {
+            return "";
+        }
+
+        JSONObject jsonObject = new JSONObject();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            try {
+                jsonObject.put(entry.getKey(), entry.getValue());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonObject.toString();
+    }
+
 
     public static class Logger {
 
