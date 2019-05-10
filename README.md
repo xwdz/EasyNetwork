@@ -23,13 +23,14 @@ or
 `EasyNetwork`内部维护了一个单例`EasyNetwork.getImpl().sendRequest(request,callback)`即可发送请求
 
 ```
+
  Request request = new Request.Builder()
                 .url("ur")
                 .post() // or get
                 .tag("TAG")
                 .addParam("key", "value")
                 .build();
-                
+ // send Request          
  EasyNetwork.getImpl().sendRequest(request, new StringEasyCallbackImpl() {
          @Override
          public void onSuccessful(String data) {
@@ -41,7 +42,10 @@ or
              Util.Logger.w("tag", "err:" + error.toString());
              mLogView.setText(error.toString());
          }
-     });               
+     });   
+     
+    // cancel Request
+    EasyNetwork.getImpl().cancelRequest(request)               
 ```
 
 ### 扩展Callback
