@@ -65,7 +65,7 @@ public class HttpUrlConnection {
             addHeader(connection, request.headers);
             os = connection.getOutputStream();
             //todo postFile
-            os.write(Request.getPostParams(request.params).getBytes());
+            os.write(Util.formatPostParams(request.params).getBytes());
 
         } catch (Throwable e) {
             throw new EasyHTTPException(EasyHTTPException.Error.SERVICE, e.getMessage());

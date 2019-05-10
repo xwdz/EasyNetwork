@@ -36,7 +36,7 @@ public class Request implements Serializable {
     @Override
     public String toString() {
         return "url='" + url + '\'' +
-                ", params=" + Util.getPostParams(params);
+                ", params=" + Util.formatPostParams(params);
     }
 
     public static class Builder {

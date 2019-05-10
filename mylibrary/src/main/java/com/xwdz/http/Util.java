@@ -79,7 +79,7 @@ public class Util {
         return new File(cachePath + File.separator + uniqueName);
     }
 
-    public static String getPostParams(HashMap<String, String> params) {
+    public static String formatPostParams(HashMap<String, String> params) {
         if (params.isEmpty()) {
             return "";
         }
