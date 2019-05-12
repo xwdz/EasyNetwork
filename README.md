@@ -1,11 +1,11 @@
 ### EasyNetwork
 
-[logo](./jar/logo.jpg)
+![logo](./jar/logo.jpg)
 
 
 [![Download](https://api.bintray.com/packages/quinnhuang/widget/EasyNetwork/images/download.svg)](https://bintray.com/quinnhuang/widget/EasyNetwork/_latestVersion)
- 
- 
+
+
 ### 前言
 开发中如果依赖了第三方Jar，而第三方Jar又需要依赖其他第三方库,如果是App开发还可以接受
 但是如果是SDK开发者这种情况挺尴尬的，打成Jar后可能SDK体积会变的很大，又或者并不需要引入其他第三方库有点大材小用的感觉。
@@ -20,7 +20,7 @@
 or
 
 > compile 'com.xwdz:EasyNetwork:$DownloadLastVersion'
- 
+
 ### 使用
 
 `EasyNetwork`内部维护了一个单例`EasyNetwork.getImpl().sendRequest(request,callback)`即可发送请求
