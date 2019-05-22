@@ -16,7 +16,7 @@
 
 ### Download
 
-[Download Jar=10.16KB](./jar/EasyNetwork-1.0.0-sources.jar)
+[click here download jar](https://bintray.com/quinnhuang/widget/EasyNetwork#files)
 
 
 or
