@@ -6,7 +6,7 @@
 [![Download](https://api.bintray.com/packages/quinnhuang/widget/EasyNetwork/images/download.svg)](https://bintray.com/quinnhuang/widget/EasyNetwork/_latestVersion)
 
 
-#### 如果用的还行希望点个star
+#### 如果用的还行希望点个star,我会继续维护下去.
 
 ### 前言
 开发中如果依赖了第三方Jar，而第三方Jar又需要依赖其他第三方库,如果是App开发还可以接受
