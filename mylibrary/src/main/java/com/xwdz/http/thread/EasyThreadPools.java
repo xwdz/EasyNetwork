@@ -25,7 +25,7 @@ public class EasyThreadPools {
             @Override
             public Thread newThread(Runnable r) {
                 final Thread thread = new Thread(r);
-                thread.setName("EasyNetwork#"+sAtomicInteger.getAndDecrement());
+                thread.setName("EasyNetwork#" + sAtomicInteger.getAndDecrement());
                 return thread;
             }
         };

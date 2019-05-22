@@ -59,8 +59,16 @@ public abstract class StringEasyCallbackImpl extends BaseEasyCallbackImpl {
         } finally {
             Util.quietClose(is);
             Util.quietClose(out);
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    onCompleted();
+                }
+            });
         }
     }
 
     public abstract void onSuccessful(String data);
+
+    public abstract void onCompleted();
 }

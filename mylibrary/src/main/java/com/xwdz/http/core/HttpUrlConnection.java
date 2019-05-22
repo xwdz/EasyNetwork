@@ -2,13 +2,16 @@ package com.xwdz.http.core;
 
 import android.webkit.URLUtil;
 
+import com.xwdz.http.EasyConfig;
 import com.xwdz.http.Util;
+import com.xwdz.http.callback.InterceptRequest;
 import com.xwdz.http.error.EasyHTTPException;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,29 +20,35 @@ import java.util.Map;
  */
 public class HttpUrlConnection {
 
-    public static HttpURLConnection execute(Request request) throws EasyHTTPException {
+    public static HttpURLConnection execute(Request request, EasyConfig config) throws EasyHTTPException {
         if (!URLUtil.isNetworkUrl(request.url)) {
             throw new EasyHTTPException(EasyHTTPException.Error.URL_VALID, "the url :" + request.url + " is not valid");
         }
-        switch (request.method) {
-            case GET:
-                return get(request);
-            case POST:
-                return post(request);
+
+        List<InterceptRequest> interceptRequestList = config.getInterceptRequests();
+        for (InterceptRequest interceptRequest : interceptRequestList) {
+            request = interceptRequest.onInterceptRequest(request);
         }
 
+        switch (request.method) {
+            case GET:
+                return get(request, config);
+            case POST:
+                return post(request, config);
+        }
         return null;
     }
 
 
-    private static HttpURLConnection get(Request request) throws EasyHTTPException {
+    private static HttpURLConnection get(Request request, EasyConfig config) throws EasyHTTPException {
         try {
 
-            HttpURLConnection connection = (HttpURLConnection) new URL(request.url +
-                    Util.appendHttpParams(request.params)).openConnection();
+            String realUrl = request.url + Util.appendHttpParams(request.params, true);
+
+            HttpURLConnection connection = (HttpURLConnection) new URL(realUrl).openConnection();
             connection.setRequestMethod(request.method.name());
-            connection.setConnectTimeout(request.connectTimeoutMillis);
-            connection.setReadTimeout(request.readTimeoutMillis);
+            connection.setConnectTimeout(config.getConnectTimeoutMillis());
+            connection.setReadTimeout(config.getReadTimeoutMillis());
 
             addHeader(connection, request.headers);
 
@@ -50,15 +59,15 @@ public class HttpUrlConnection {
     }
 
 
-    private static HttpURLConnection post(Request request) throws EasyHTTPException {
+    private static HttpURLConnection post(Request request, EasyConfig config) throws EasyHTTPException {
         HttpURLConnection connection = null;
         OutputStream os = null;
         try {
 
             connection = (HttpURLConnection) new URL(request.url).openConnection();
             connection.setRequestMethod(request.method.name());
-            connection.setConnectTimeout(request.connectTimeoutMillis);
-            connection.setReadTimeout(request.readTimeoutMillis);
+            connection.setConnectTimeout(config.getConnectTimeoutMillis());
+            connection.setReadTimeout(config.getReadTimeoutMillis());
             connection.setDoOutput(true);
 
 
@@ -84,11 +93,10 @@ public class HttpUrlConnection {
     }
 
     private static void addHeader(HttpURLConnection connection, Map<String, String> headers) {
-        if (headers == null || headers.size() == 0)
-            return;
-
-        for (Map.Entry<String, String> entry : headers.entrySet()) {
-            connection.addRequestProperty(entry.getKey(), entry.getValue());
+        if (headers != null && !headers.isEmpty()) {
+            for (Map.Entry<String, String> entry : headers.entrySet()) {
+                connection.addRequestProperty(entry.getKey(), entry.getValue());
+            }
         }
     }
 }

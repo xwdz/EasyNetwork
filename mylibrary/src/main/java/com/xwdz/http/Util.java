@@ -13,9 +13,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -45,11 +43,14 @@ public class Util {
         }
     }
 
-    public static String appendHttpParams(LinkedHashMap<String, String> sLinkedHashMap) {
+    public static String appendHttpParams(Map<String, String> sLinkedHashMap, boolean isAppend) {
         Iterator<String> keys = sLinkedHashMap.keySet().iterator();
         Iterator<String> values = sLinkedHashMap.values().iterator();
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("?");
+        if (isAppend) {
+            stringBuffer.append("?");
+        }
+
 
         for (int i = 0; i < sLinkedHashMap.size(); i++) {
             String value = null;
@@ -79,7 +80,7 @@ public class Util {
         return new File(cachePath + File.separator + uniqueName);
     }
 
-    public static String formatPostParams(HashMap<String, String> params) {
+    public static String formatPostParams(Map<String, String> params) {
         if (params.isEmpty()) {
             return "";
         }
@@ -103,6 +104,10 @@ public class Util {
 
         public static void w(String tag, String message) {
             Log.w(TAG, "[" + tag + "]" + message);
+        }
+
+        public static void e(String tag, String message) {
+            Log.e(TAG, "[" + tag + "]" + message);
         }
     }
 }

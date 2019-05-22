@@ -3,7 +3,7 @@ package com.xwdz.http.core;
 import com.xwdz.http.Util;
 
 import java.io.Serializable;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 /**
  * @author xingwei.huang (xwdz9989@gmail.com)
@@ -16,27 +16,32 @@ public class Request implements Serializable {
     public String url;
     public Method method;
     public Object tag;
-    public LinkedHashMap<String, String> params;
-    public LinkedHashMap<String, String> headers;
-    public int connectTimeoutMillis = 15 * 1000;
-    public int readTimeoutMillis = 15 * 1000;
+    public HashMap<String, String> params;
+    public HashMap<String, String> headers;
+
+    private Builder mBuilder;
 
 
     public Request(Builder builder) {
+        this.mBuilder = builder;
         this.url = builder.url;
         this.method = builder.method;
         this.tag = builder.tag;
         this.params = builder.params;
         this.headers = builder.header;
-        this.connectTimeoutMillis = builder.connectTimeoutMillis;
-        this.readTimeoutMillis = builder.readTimeoutMills;
+    }
+
+
+    public Request newRequest() {
+        return new Request(mBuilder);
     }
 
 
     @Override
     public String toString() {
         return "url='" + url + '\'' +
-                ", params=" + Util.formatPostParams(params);
+                ", params=" + Util.formatPostParams(params) + ", headers=" + Util.formatPostParams(headers)
+                ;
     }
 
     public static class Builder {
@@ -44,8 +49,8 @@ public class Request implements Serializable {
         String url;
         Method method;
         Object tag;
-        LinkedHashMap<String, String> params = new LinkedHashMap<>();
-        LinkedHashMap<String, String> header = new LinkedHashMap<>();
+        HashMap<String, String> params = new HashMap<>();
+        HashMap<String, String> header = new HashMap<>();
         int connectTimeoutMillis;
         int readTimeoutMills;
 
@@ -71,6 +76,11 @@ public class Request implements Serializable {
             return this;
         }
 
+        public Builder method(Method method) {
+            this.method = method;
+            return this;
+        }
+
         public Builder post() {
             method = Method.POST;
             return this;
@@ -91,14 +101,12 @@ public class Request implements Serializable {
             return this;
         }
 
-        public Builder addParams(LinkedHashMap<String, String> params) {
-            this.params.clear();
+        public Builder addParams(HashMap<String, String> params) {
             this.params.putAll(params);
             return this;
         }
 
-        public Builder addHeaders(LinkedHashMap<String, String> params) {
-            header.clear();
+        public Builder addHeaders(HashMap<String, String> params) {
             header.putAll(params);
             return this;
         }

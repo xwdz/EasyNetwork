@@ -3,8 +3,10 @@ package com.xwdz.httpsimple;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.elvishew.xlog.XLog;
 import com.xwdz.http.EasyNetwork;
 import com.xwdz.http.Util;
 import com.xwdz.http.callback.FileEasyCallbackImpl;
@@ -15,7 +17,11 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
     private TextView mLogView;
+    private LinearLayout mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +29,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mLogView = findViewById(R.id.logText);
+        mProgressBar = findViewById(R.id.progressBar);
 
 
         findViewById(R.id.get).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mProgressBar.setVisibility(View.VISIBLE);
                 testGET();
             }
         });
@@ -36,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.post).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EasyNetwork.getImpl().cancelRequest("TAG");
+                mProgressBar.setVisibility(View.VISIBLE);
+                testPOST();
             }
         });
 
@@ -75,42 +84,53 @@ public class MainActivity extends AppCompatActivity {
                         mLogView.setText(error.toString());
                     }
                 });
+
+
     }
 
 
     public void testGET() {
         Request request = new Request.Builder()
-                .url("ur")
+                .url("http://47.106.223.246/test/get")
                 .tag("TAG")
-                .get()
-                .addParam("key", "value")
+                .addParam("custom_test_param", "value")
+                .addHeader("custom_test_header", "value")
                 .build();
 
         EasyNetwork.getImpl().sendRequest(request, new StringEasyCallbackImpl() {
             @Override
             public void onSuccessful(String data) {
-                mLogView.setText(data);
+                XLog.json(data);
+                mLogView.setText(stringToJSON(data));
             }
 
             @Override
             public void onFailure(Throwable error) {
                 Util.Logger.w("tag", "err:" + error.toString());
                 mLogView.setText(error.toString());
+            }
+
+            @Override
+            public void onCompleted() {
+                mProgressBar.setVisibility(View.GONE);
+                mLogView.setVisibility(View.VISIBLE);
             }
         });
     }
 
-    public void testPOST(){
+    public void testPOST() {
         Request request = new Request.Builder()
-                .url("url")
+                .url("http://47.106.223.246/test/post")
                 .post()
-                .addParam("key", "value")
+                .tag("TAG")
+                .addParam("custom_test_param", "value")
+                .addHeader("custom_test_header", "value")
                 .build();
 
         EasyNetwork.getImpl().sendRequest(request, new StringEasyCallbackImpl() {
             @Override
             public void onSuccessful(String data) {
-                mLogView.setText(data);
+                mLogView.setText(stringToJSON(data));
             }
 
             @Override
@@ -118,6 +138,67 @@ public class MainActivity extends AppCompatActivity {
                 Util.Logger.w("tag", "err:" + error.toString());
                 mLogView.setText(error.toString());
             }
+
+            @Override
+            public void onCompleted() {
+                mProgressBar.setVisibility(View.GONE);
+                mLogView.setVisibility(View.VISIBLE);
+            }
         });
+    }
+
+    public static String stringToJSON(String strJson) {
+        // 计数tab的个数
+        int tabNum = 0;
+        StringBuffer jsonFormat = new StringBuffer();
+        int length = strJson.length();
+
+        char last = 0;
+        for (int i = 0; i < length; i++) {
+            char c = strJson.charAt(i);
+            if (c == '{') {
+                tabNum++;
+                jsonFormat.append(c + "\n");
+                jsonFormat.append(getSpaceOrTab(tabNum));
+            } else if (c == '}') {
+                tabNum--;
+                jsonFormat.append("\n");
+                jsonFormat.append(getSpaceOrTab(tabNum));
+                jsonFormat.append(c);
+            } else if (c == ',') {
+                jsonFormat.append(c + "\n");
+                jsonFormat.append(getSpaceOrTab(tabNum));
+            } else if (c == ':') {
+                jsonFormat.append(c + " ");
+            } else if (c == '[') {
+                tabNum++;
+                char next = strJson.charAt(i + 1);
+                if (next == ']') {
+                    jsonFormat.append(c);
+                } else {
+                    jsonFormat.append(c + "\n");
+                    jsonFormat.append(getSpaceOrTab(tabNum));
+                }
+            } else if (c == ']') {
+                tabNum--;
+                if (last == '[') {
+                    jsonFormat.append(c);
+                } else {
+                    jsonFormat.append("\n" + getSpaceOrTab(tabNum) + c);
+                }
+            } else {
+                jsonFormat.append(c);
+            }
+            last = c;
+        }
+        return jsonFormat.toString();
+    }
+
+    private static String getSpaceOrTab(int tabNum) {
+        StringBuffer sbTab = new StringBuffer();
+        for (int i = 0; i < tabNum; i++) {
+            sbTab.append('\t');
+        }
+        return sbTab.toString();
     }
 }

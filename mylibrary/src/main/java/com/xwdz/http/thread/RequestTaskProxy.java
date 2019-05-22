@@ -3,6 +3,7 @@ package com.xwdz.http.thread;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.xwdz.http.EasyConfig;
 import com.xwdz.http.Util;
 import com.xwdz.http.callback.IBaseEasyCallback;
 import com.xwdz.http.core.HttpUrlConnection;
@@ -18,9 +19,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author xingwei.huang (xwdz9989@gmail.com)
  * @since v1.0.0
  */
-public class RequestTaskWrapper {
+public class RequestTaskProxy {
 
-    private static final String TAG = RequestTaskWrapper.class.getSimpleName();
+    private static final String TAG = RequestTaskProxy.class.getSimpleName();
 
     private final AtomicBoolean mCancelled = new AtomicBoolean();
     private final AtomicBoolean mTaskInvoked = new AtomicBoolean();
@@ -30,11 +31,13 @@ public class RequestTaskWrapper {
     private Request mRequest;
     private IBaseEasyCallback mBaseEasyCallback;
     private FutureTask<HttpURLConnection> mFuture;
+    private EasyConfig mConfig;
 
 
-    public RequestTaskWrapper(Request request, IBaseEasyCallback baseEasyCallback) {
+    public RequestTaskProxy(EasyConfig config, Request request, IBaseEasyCallback baseEasyCallback) {
         this.mRequest = request;
         this.mBaseEasyCallback = baseEasyCallback;
+        this.mConfig = config;
     }
 
     public Request getRequest() {
@@ -50,7 +53,7 @@ public class RequestTaskWrapper {
                 HttpURLConnection result = null;
                 try {
                     mTaskInvoked.set(true);
-                    result = HttpUrlConnection.execute(mRequest);
+                    result = HttpUrlConnection.execute(mRequest, mConfig);
                     Util.Logger.w(TAG, "Connection success!");
                 } catch (final EasyHTTPException e) {
                     mCancelled.set(true);
@@ -104,7 +107,7 @@ public class RequestTaskWrapper {
         }
 
         if (mBaseEasyCallback != null) {
-            mBaseEasyCallback.cancel();
+            mBaseEasyCallback.onCancel();
         }
     }
 

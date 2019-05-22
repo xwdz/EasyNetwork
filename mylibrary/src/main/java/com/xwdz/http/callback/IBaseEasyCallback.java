@@ -12,6 +12,5 @@ public interface IBaseEasyCallback {
 
     void onFailure(Throwable error);
 
-    void cancel();
-
+    void onCancel();
 }

@@ -28,8 +28,15 @@ public class EasyNetwork {
 
     private EasyRequestManager mEasyRequestManager;
 
+    private EasyConfig mConfig;
+
     private EasyNetwork() {
+        mConfig = new EasyConfig();
         mEasyRequestManager = new EasyRequestManager();
+    }
+
+    public void initConfigs(EasyConfig config) {
+        this.mConfig = config;
     }
 
 
@@ -45,7 +52,7 @@ public class EasyNetwork {
         request.tag = request.tag == null ? request.url : request.tag;
 
 
-        mEasyRequestManager.performRequest(request, baseEasyCallback);
+        mEasyRequestManager.performRequest(mConfig, request, baseEasyCallback);
     }
 
     public void cancelRequest(Object tag) {
@@ -55,4 +62,5 @@ public class EasyNetwork {
     public void cancelAll() {
         mEasyRequestManager.performCancelAll();
     }
+
 }

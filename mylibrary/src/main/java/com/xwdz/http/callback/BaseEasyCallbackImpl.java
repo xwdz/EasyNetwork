@@ -24,7 +24,7 @@ public abstract class BaseEasyCallbackImpl implements IBaseEasyCallback {
     }
 
     @Override
-    public void cancel() {
+    public void onCancel() {
         isCancelled = true;
     }
 

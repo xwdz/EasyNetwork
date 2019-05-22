@@ -1,7 +1,8 @@
 package com.xwdz.http.core;
 
+import com.xwdz.http.EasyConfig;
 import com.xwdz.http.callback.IBaseEasyCallback;
-import com.xwdz.http.thread.RequestTaskWrapper;
+import com.xwdz.http.thread.RequestTaskProxy;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,14 +13,14 @@ import java.util.Map;
  */
 public class EasyRequestManager {
 
-    private HashMap<String, RequestTaskWrapper> mRequestHashMap;
+    private HashMap<String, RequestTaskProxy> mRequestHashMap;
 
     public EasyRequestManager() {
         mRequestHashMap = new HashMap<>();
     }
 
-    public void performRequest(Request request, IBaseEasyCallback baseEasyCallback) {
-        final RequestTaskWrapper task = new RequestTaskWrapper(request, baseEasyCallback);
+    public void performRequest(EasyConfig config, Request request, IBaseEasyCallback baseEasyCallback) {
+        final RequestTaskProxy task = new RequestTaskProxy(config, request, baseEasyCallback);
         task.start();
         mRequestHashMap.put(task.getRequest().tag.toString(), task);
 
@@ -27,14 +28,14 @@ public class EasyRequestManager {
 
 
     public void performCancelRequest(Object tag) {
-        RequestTaskWrapper requestWrapper = mRequestHashMap.get(tag.toString());
+        RequestTaskProxy requestWrapper = mRequestHashMap.get(tag.toString());
         if (requestWrapper != null) {
             requestWrapper.cancel();
         }
     }
 
     public void performCancelAll() {
-        for (Map.Entry<String, RequestTaskWrapper> entry : mRequestHashMap.entrySet()) {
+        for (Map.Entry<String, RequestTaskProxy> entry : mRequestHashMap.entrySet()) {
             entry.getValue().cancel();
         }
     }
