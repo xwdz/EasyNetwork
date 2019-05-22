@@ -35,7 +35,7 @@ public class EasyNetwork {
         mEasyRequestManager = new EasyRequestManager();
     }
 
-    public void initConfig(EasyNetworkConfig config) {
+    public void initializeConfig(EasyNetworkConfig config) {
         this.mConfig = config;
     }
 

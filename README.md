@@ -36,14 +36,14 @@ or
  // 添加 统一加密所有请求
  config.addIntercepts(new APISignatureIntercept());
 
- EasyNetwork.getImpl().initConfigs(config);
+ EasyNetwork.getImpl().initializeConfig(config);
 
 ```
 
-Simple:
-
-[AppendParamsIntercept](https://github.com/xwdz/EasyNetwork/blob/master/app/src/main/java/com/xwdz/httpsimple/AppendParamsIntercept.java)
-[APISignatureIntercept](https://github.com/xwdz/EasyNetwork/blob/master/app/src/main/java/com/xwdz/httpsimple/APISignatureIntercept.java)
+|SimpleIntercept|
+|:-:|
+|[AppendParamsIntercept](https://github.com/xwdz/EasyNetwork/blob/master/app/src/main/java/com/xwdz/httpsimple/AppendParamsIntercept.java)|
+|[APISignatureIntercept](https://github.com/xwdz/EasyNetwork/blob/master/app/src/main/java/com/xwdz/httpsimple/APISignatureIntercept.java)|
 
 
 `EasyNetwork`内部维护了一个单例`EasyNetwork.getImpl().sendRequest(request,callback)`即可发送请求

@@ -33,9 +33,6 @@ public class AppendGlobalParamsIntercept implements InterceptRequest {
         }
 
         Request realRequest = new Request.Builder()
-                .url(request.url)
-                .method(request.method)
-                .tag(request.tag)
                 .addHeaders(headers)
                 .addParams(params)
                 .build();
