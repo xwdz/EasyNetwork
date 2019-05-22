@@ -32,7 +32,7 @@ or
 
 ```
 
- EasyConfig config = new EasyConfig();
+ EasyNetworkConfig config = new EasyNetworkConfig();
  // 添加 公共参数拦截器
  config.addIntercepts(new AppendParamsIntercept());
  // 添加 统一加密所有请求
