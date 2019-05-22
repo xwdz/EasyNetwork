@@ -1,6 +1,6 @@
 package com.xwdz.http.core;
 
-import com.xwdz.http.EasyConfig;
+import com.xwdz.http.EasyNetworkConfig;
 import com.xwdz.http.callback.IBaseEasyCallback;
 import com.xwdz.http.thread.RequestTaskProxy;
 
@@ -19,7 +19,7 @@ public class EasyRequestManager {
         mRequestHashMap = new HashMap<>();
     }
 
-    public void performRequest(EasyConfig config, Request request, IBaseEasyCallback baseEasyCallback) {
+    public void performRequest(EasyNetworkConfig config, Request request, IBaseEasyCallback baseEasyCallback) {
         final RequestTaskProxy task = new RequestTaskProxy(config, request, baseEasyCallback);
         task.start();
         mRequestHashMap.put(task.getRequest().tag.toString(), task);

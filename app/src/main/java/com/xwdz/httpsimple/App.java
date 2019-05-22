@@ -1,15 +1,9 @@
 package com.xwdz.httpsimple;
 
 import android.app.Application;
-import android.util.Log;
 
-import com.xwdz.http.EasyConfig;
 import com.xwdz.http.EasyNetwork;
-import com.xwdz.http.callback.InterceptRequest;
-import com.xwdz.http.core.Request;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.xwdz.http.EasyNetworkConfig;
 
 /**
  * @author xingwei.huang (xwdz9989@gmail.com)
@@ -22,43 +16,11 @@ public class App extends Application {
         super.onCreate();
 
 
-        EasyConfig config = new EasyConfig();
-
-
-        config.addIntercepts(new InterceptRequest() {
-            @Override
-            public Request onInterceptRequest(Request request) {
-                HashMap<String, String> params = new HashMap<>();
-                HashMap<String, String> headers = new HashMap<>();
-
-                headers.put("comm_global_custom_header1", "comm_custom_header1");
-                headers.put("comm_global_custom_header2", "comm_custom_header2");
-
-                params.put("comm_global_custom_params1", "comm_custom_params1");
-                params.put("comm_global_custom_params2", "comm_custom_params2");
-
-                for (Map.Entry<String, String> old : request.params.entrySet()) {
-                    params.put(old.getKey(), old.getValue());
-                }
-
-                for (Map.Entry<String, String> old : request.headers.entrySet()) {
-                    headers.put(old.getKey(), old.getValue());
-                }
-
-                Request realRequest = new Request.Builder()
-                        .url(request.url)
-                        .method(request.method)
-                        .tag(request.tag)
-                        .addHeaders(headers)
-                        .addParams(params)
-                        .build();
-
-                Log.w("EasyHttp", "intercept:" + realRequest.toString());
-                return realRequest;
-            }
-        });
-
-        EasyNetwork.getImpl().initConfigs(config);
+        EasyNetworkConfig config = new EasyNetworkConfig();
+        config.addIntercepts(new CommParamsIntercept());
+        config.addIntercepts(new SignatureIntercept());
+//
+        EasyNetwork.getImpl().initConfig(config);
 
     }
 }

@@ -2,7 +2,7 @@ package com.xwdz.http.core;
 
 import android.webkit.URLUtil;
 
-import com.xwdz.http.EasyConfig;
+import com.xwdz.http.EasyNetworkConfig;
 import com.xwdz.http.Util;
 import com.xwdz.http.callback.InterceptRequest;
 import com.xwdz.http.error.EasyHTTPException;
@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class HttpUrlConnection {
 
-    public static HttpURLConnection execute(Request request, EasyConfig config) throws EasyHTTPException {
+    public static HttpURLConnection execute(Request request, EasyNetworkConfig config) throws EasyHTTPException {
         if (!URLUtil.isNetworkUrl(request.url)) {
             throw new EasyHTTPException(EasyHTTPException.Error.URL_VALID, "the url :" + request.url + " is not valid");
         }
@@ -40,7 +40,7 @@ public class HttpUrlConnection {
     }
 
 
-    private static HttpURLConnection get(Request request, EasyConfig config) throws EasyHTTPException {
+    private static HttpURLConnection get(Request request, EasyNetworkConfig config) throws EasyHTTPException {
         try {
 
             String realUrl = request.url + Util.appendHttpParams(request.params, true);
@@ -59,7 +59,7 @@ public class HttpUrlConnection {
     }
 
 
-    private static HttpURLConnection post(Request request, EasyConfig config) throws EasyHTTPException {
+    private static HttpURLConnection post(Request request, EasyNetworkConfig config) throws EasyHTTPException {
         HttpURLConnection connection = null;
         OutputStream os = null;
         try {

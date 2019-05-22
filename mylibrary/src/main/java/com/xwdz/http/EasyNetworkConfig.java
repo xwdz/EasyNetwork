@@ -9,7 +9,10 @@ import java.util.List;
  * @author xingwei.huang (xwdz9989@gmail.com)
  * @since v1.0.0
  */
-public class EasyConfig {
+public class EasyNetworkConfig {
+
+
+    public static boolean isDebug = true;
 
     private int connectTimeoutMillis = 15 * 1000;
     private int readTimeoutMillis = 15 * 1000;
@@ -41,4 +44,5 @@ public class EasyConfig {
     public int getReadTimeoutMillis() {
         return readTimeoutMillis;
     }
+
 }

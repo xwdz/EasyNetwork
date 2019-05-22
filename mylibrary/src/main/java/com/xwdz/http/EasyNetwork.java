@@ -28,14 +28,14 @@ public class EasyNetwork {
 
     private EasyRequestManager mEasyRequestManager;
 
-    private EasyConfig mConfig;
+    private EasyNetworkConfig mConfig;
 
     private EasyNetwork() {
-        mConfig = new EasyConfig();
+        mConfig = new EasyNetworkConfig();
         mEasyRequestManager = new EasyRequestManager();
     }
 
-    public void initConfigs(EasyConfig config) {
+    public void initConfig(EasyNetworkConfig config) {
         this.mConfig = config;
     }
 

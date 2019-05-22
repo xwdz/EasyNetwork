@@ -103,11 +103,15 @@ public class Util {
         public static final String TAG = EasyNetwork.class.getSimpleName();
 
         public static void w(String tag, String message) {
-            Log.w(TAG, "[" + tag + "]" + message);
+            if (EasyNetworkConfig.isDebug) {
+                Log.w(TAG, "[" + tag + "]" + message);
+            }
         }
 
         public static void e(String tag, String message) {
-            Log.e(TAG, "[" + tag + "]" + message);
+            if (EasyNetworkConfig.isDebug) {
+                Log.e(TAG, "[" + tag + "]" + message);
+            }
         }
     }
 }

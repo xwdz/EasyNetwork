@@ -6,7 +6,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.elvishew.xlog.XLog;
 import com.xwdz.http.EasyNetwork;
 import com.xwdz.http.Util;
 import com.xwdz.http.callback.FileEasyCallbackImpl;
@@ -100,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
         EasyNetwork.getImpl().sendRequest(request, new StringEasyCallbackImpl() {
             @Override
             public void onSuccessful(String data) {
-                XLog.json(data);
                 mLogView.setText(stringToJSON(data));
             }
 

@@ -3,7 +3,7 @@ package com.xwdz.http.thread;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.xwdz.http.EasyConfig;
+import com.xwdz.http.EasyNetworkConfig;
 import com.xwdz.http.Util;
 import com.xwdz.http.callback.IBaseEasyCallback;
 import com.xwdz.http.core.HttpUrlConnection;
@@ -31,10 +31,10 @@ public class RequestTaskProxy {
     private Request mRequest;
     private IBaseEasyCallback mBaseEasyCallback;
     private FutureTask<HttpURLConnection> mFuture;
-    private EasyConfig mConfig;
+    private EasyNetworkConfig mConfig;
 
 
-    public RequestTaskProxy(EasyConfig config, Request request, IBaseEasyCallback baseEasyCallback) {
+    public RequestTaskProxy(EasyNetworkConfig config, Request request, IBaseEasyCallback baseEasyCallback) {
         this.mRequest = request;
         this.mBaseEasyCallback = baseEasyCallback;
         this.mConfig = config;
