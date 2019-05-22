@@ -42,7 +42,7 @@ or
 
 |SimpleIntercept|
 |:-:|
-|[AppendParamsIntercept](https://github.com/xwdz/EasyNetwork/blob/master/app/src/main/java/com/xwdz/httpsimple/AppendParamsIntercept.java)|
+|[AppendParamsIntercept](https://github.com/xwdz/EasyNetwork/blob/master/app/src/main/java/com/xwdz/httpsimple/AppendGlobalParamsIntercept.java)|
 |[APISignatureIntercept](https://github.com/xwdz/EasyNetwork/blob/master/app/src/main/java/com/xwdz/httpsimple/APISignatureIntercept.java)|
 
 
