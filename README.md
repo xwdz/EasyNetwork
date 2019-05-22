@@ -3,7 +3,7 @@
 ![logo](./jar/logo.jpg)
 
 
-[![Download](https://api.bintray.com/packages/quinnhuang/widget/EasyNetwork/images/download.svg)](https://bintray.com/quinnhuang/widget/EasyNetwork/_latestVersion)
+[![DownloadLastVersion](https://api.bintray.com/packages/quinnhuang/widget/EasyNetwork/images/download.svg)](https://bintray.com/quinnhuang/widget/EasyNetwork/_latestVersion)
 
 
 #### 如果用的还行希望点个star,我会继续维护下去.
