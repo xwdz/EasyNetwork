@@ -11,7 +11,7 @@ import java.util.HashMap;
  * @author xingwei.huang (xwdz9989@gmail.com)
  * @since v1.0.0
  */
-public class SignatureIntercept implements InterceptRequest {
+public class APISignatureIntercept implements InterceptRequest {
     @Override
     public Request onInterceptRequest(Request request) {
 

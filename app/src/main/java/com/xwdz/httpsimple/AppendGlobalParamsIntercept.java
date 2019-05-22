@@ -12,7 +12,7 @@ import java.util.Map;
  * @author xingwei.huang (xwdz9989@gmail.com)
  * @since v1.0.0
  */
-public class CommParamsIntercept implements InterceptRequest {
+public class AppendGlobalParamsIntercept implements InterceptRequest {
     @Override
     public Request onInterceptRequest(Request request) {
         HashMap<String, String> params = new HashMap<>();
