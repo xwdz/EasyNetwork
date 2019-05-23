@@ -39,7 +39,7 @@ publish {
     repoName = 'widget'
     groupId = 'com.xwdz'
     artifactId = 'EasyNetwork'
-    publishVersion = '1.0.1-beta1'
+    publishVersion = '1.0.1-beta2'
     desc = 'Android native Http'//描述，不重要
     website = siteUrl//项目主页
 }
