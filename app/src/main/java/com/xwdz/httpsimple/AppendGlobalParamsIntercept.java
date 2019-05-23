@@ -32,12 +32,11 @@ public class AppendGlobalParamsIntercept implements InterceptRequest {
             headers.put(old.getKey(), old.getValue());
         }
 
-        Request realRequest = new Request.Builder()
-                .addHeaders(headers)
-                .addParams(params)
-                .build();
+        Request clone = request.clone();
+        clone.params.putAll(params);
+        clone.headers.putAll(headers);
 
-        Log.w("EasyHttp", "append params intercept:" + realRequest.toString());
-        return realRequest;
+        Log.w("EasyHttp", "append params intercept:" + clone.toString());
+        return clone;
     }
 }

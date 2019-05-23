@@ -4,7 +4,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.xwdz.http.Util;
-import com.xwdz.http.error.EasyHTTPException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -20,33 +19,28 @@ public abstract class StringEasyCallbackImpl extends BaseEasyCallbackImpl {
 
     @Override
     public void onResponse(final HttpURLConnection httpURLConnection) {
+
         InputStream is = null;
         ByteArrayOutputStream out = null;
         try {
-            final int status = httpURLConnection.getResponseCode();
-            if (status == HttpURLConnection.HTTP_OK) {
-                is = httpURLConnection.getInputStream();
-                out = new ByteArrayOutputStream();
-                byte[] buffer = new byte[2048];
-                int len;
-                while ((len = is.read(buffer)) != -1) {
-                    out.write(buffer, 0, len);
-                }
-                out.flush();
-                out.close();
-
-                final String result = new String(out.toByteArray());
-
-                mHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        onSuccessful(result);
-                    }
-                });
-            } else {
-                throw new EasyHTTPException(httpURLConnection.getResponseMessage(), String.valueOf(status));
+            is = httpURLConnection.getInputStream();
+            out = new ByteArrayOutputStream();
+            byte[] buffer = new byte[2048];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                out.write(buffer, 0, len);
             }
+            out.flush();
+            out.close();
 
+            final String result = new String(out.toByteArray());
+
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    onSuccessful(result);
+                }
+            });
 
         } catch (final Throwable e) {
             e.printStackTrace();

@@ -2,6 +2,7 @@ package com.xwdz.httpsimple;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import com.xwdz.http.callback.StringEasyCallbackImpl;
 import com.xwdz.http.core.Request;
 
 import java.io.File;
+import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,7 +50,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //
 
+        Method[] methods = Test.class.getDeclaredMethods();
+
+        for (Method method : methods) {
+            if (method.isAnnotationPresent(EasyCallback.class)) {
+                EasyCallback easyCallback = method.getAnnotation(EasyCallback.class);
+                EasyCallback.ThreadType threadType = easyCallback.threadType();
+                Log.e("TAG", "t:" + threadType);
+            }
+        }
     }
 
     @Override
@@ -92,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url("http://47.106.223.246/test/get")
                 .tag("TAG")
+                .method(Request.Method.GET)
                 .addParam("custom_test_param", "value")
                 .addHeader("custom_test_header", "value")
                 .build();

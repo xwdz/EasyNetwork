@@ -9,7 +9,7 @@ import java.util.HashMap;
  * @author xingwei.huang (xwdz9989@gmail.com)
  * @since v1.0.0
  */
-public class Request implements Serializable {
+public class Request implements Serializable, Cloneable {
 
     private static final long serialVersionUID = -6446819668525759443L;
 
@@ -36,6 +36,15 @@ public class Request implements Serializable {
         return new Request(mBuilder);
     }
 
+    @Override
+    public Request clone() {
+        try {
+            return (Request) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return newRequest();
+    }
 
     @Override
     public String toString() {

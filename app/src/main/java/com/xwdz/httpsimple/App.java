@@ -21,5 +21,28 @@ public class App extends Application {
 //        config.addIntercepts(new APISignatureIntercept());
         EasyNetwork.getImpl().initializeConfig(config);
 
+
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("11")
+//                .client(okHttpClient)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                .build();
+//
+//        retrofit.create(FeedApi.class).request("0")
+//                .enqueue(new Callback<String>() {
+//                    @Override
+//                    public void onResponse(Call<String> call, Response<String> response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<String> call, Throwable t) {
+//
+//                    }
+//                });
+
+
+
     }
 }

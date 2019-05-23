@@ -18,6 +18,8 @@ android {
     }
 }
 
+def RETROFIT2 = '2.5.0'
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -26,4 +28,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(':mylibrary')
+//    implementation 'com.xwdz:EasyNetwork:1.0.1-beta1'
+//    implementation 'com.xwdz:SplashGlobally:0.0.1'
+
+    implementation "com.squareup.retrofit2:retrofit:${RETROFIT2}"
+    implementation "com.squareup.retrofit2:converter-gson:${RETROFIT2}"
+    implementation "com.squareup.retrofit2:adapter-rxjava:${RETROFIT2}"
+    implementation "io.reactivex:rxandroid:1.2.1"
 }
