@@ -6,7 +6,6 @@ package com.xwdz.httpsimple;
  */
 public class Test {
 
-    @EasyCallback
     public void bs() {
 
     }
