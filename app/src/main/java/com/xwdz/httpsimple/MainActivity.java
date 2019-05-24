@@ -2,7 +2,6 @@ package com.xwdz.httpsimple;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,7 +13,6 @@ import com.xwdz.http.callback.StringEasyCallbackImpl;
 import com.xwdz.http.core.Request;
 
 import java.io.File;
-import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,18 +47,6 @@ public class MainActivity extends AppCompatActivity {
                 testPOST();
             }
         });
-
-        //
-
-        Method[] methods = Test.class.getDeclaredMethods();
-
-        for (Method method : methods) {
-            if (method.isAnnotationPresent(EasyCallback.class)) {
-                EasyCallback easyCallback = method.getAnnotation(EasyCallback.class);
-                EasyCallback.ThreadType threadType = easyCallback.threadType();
-                Log.e("TAG", "t:" + threadType);
-            }
-        }
     }
 
     @Override
