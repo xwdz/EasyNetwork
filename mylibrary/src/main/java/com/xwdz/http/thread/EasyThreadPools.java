@@ -1,10 +1,8 @@
 package com.xwdz.http.thread;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -15,8 +13,6 @@ public class EasyThreadPools {
 
     private static ExecutorService sDefaultExecutorService;
 
-    private static final int CORE_SIZE = Runtime.getRuntime().availableProcessors() * 2 + 1;
-
     private static AtomicInteger sAtomicInteger = new AtomicInteger();
 
     static {
@@ -25,16 +21,11 @@ public class EasyThreadPools {
             @Override
             public Thread newThread(Runnable r) {
                 final Thread thread = new Thread(r);
-                thread.setName("EasyNetwork#" + sAtomicInteger.getAndDecrement());
+                thread.setName("EasyNetwork#" + sAtomicInteger.getAndIncrement());
                 return thread;
             }
         };
-
-
-        sDefaultExecutorService = new ThreadPoolExecutor(CORE_SIZE, Integer.MAX_VALUE, 30,
-                TimeUnit.SECONDS,
-                new LinkedBlockingDeque<Runnable>(),
-                threadFactory);
+        sDefaultExecutorService = Executors.newCachedThreadPool(threadFactory);
     }
 
     public static void setDefaultExecutorService(ExecutorService defaultExecutorService) {

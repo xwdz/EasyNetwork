@@ -1,8 +1,5 @@
 package com.xwdz.http.callback;
 
-import android.os.Handler;
-import android.os.Looper;
-
 import com.xwdz.http.Util;
 import com.xwdz.http.core.EasyCall;
 
@@ -15,8 +12,6 @@ import java.net.HttpURLConnection;
  * @since v1.0.0
  */
 public abstract class StringEasyCallbackImpl extends BaseEasyCallbackImpl {
-
-    private Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     public void onResponse(final EasyCall call, final HttpURLConnection httpURLConnection) {
@@ -36,16 +31,15 @@ public abstract class StringEasyCallbackImpl extends BaseEasyCallbackImpl {
 
             final String result = new String(out.toByteArray());
 
-            mHandler.post(new Runnable() {
+            safeCall(new Runnable() {
                 @Override
                 public void run() {
                     onSuccessful(result);
                 }
             });
-
         } catch (final Throwable e) {
             e.printStackTrace();
-            mHandler.post(new Runnable() {
+            safeCall(new Runnable() {
                 @Override
                 public void run() {
                     onFailure(call, e);
@@ -54,7 +48,7 @@ public abstract class StringEasyCallbackImpl extends BaseEasyCallbackImpl {
         } finally {
             Util.quietClose(is);
             Util.quietClose(out);
-            mHandler.post(new Runnable() {
+            safeCall(new Runnable() {
                 @Override
                 public void run() {
                     onCompleted();

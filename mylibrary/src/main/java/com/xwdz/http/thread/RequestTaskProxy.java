@@ -36,7 +36,7 @@ public class RequestTaskProxy {
 
     private Request mRequest;
     private IBaseEasyCallback mBaseEasyCallback;
-    private FutureTask<HttpURLConnection> mFuture;
+    private FutureTask<HttpURLConnection> mFutureTask;
     private EasyNetworkConfig mConfig;
 
     private EasyCall mEasyCall;
@@ -58,7 +58,6 @@ public class RequestTaskProxy {
         final Callable<HttpURLConnection> callable = new Callable<HttpURLConnection>() {
             @Override
             public HttpURLConnection call() {
-                Util.Logger.w(TAG, "threadName: [" + Thread.currentThread().getName() + "] Running.");
                 Util.Logger.w(TAG, "isRetry: [" + (mRetryCount.get() >= 1) + "]");
                 Util.Logger.w(TAG, mRequest.toString());
                 HttpURLConnection connection = null;
@@ -76,6 +75,7 @@ public class RequestTaskProxy {
                             }
                         }
                     }
+                    mRetryCount.set(0);
                     Util.Logger.w(TAG, "Connection success!");
                 } catch (final EasyHTTPException e) {
                     e.printStackTrace();
@@ -93,8 +93,16 @@ public class RequestTaskProxy {
                 } finally {
                     if (isError.get() && mConfig.isOpenRetry()) {
                         if (mRetryCount.getAndIncrement() < mConfig.getRetryCount()) {
-                            Util.Logger.w(TAG, "retry network request [" + mRetryCount.get() + "]");
+                            Util.Logger.w(TAG, "RetryCount:" + mRetryCount.get());
+                            try {
+                                Thread.sleep(300);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             start();
+
+                            isError.set(false);
+                            mCancelled.set(false);
                         }
                     }
                 }
@@ -103,7 +111,7 @@ public class RequestTaskProxy {
             }
         };
 
-        mFuture = new FutureTask<HttpURLConnection>(callable) {
+        mFutureTask = new FutureTask<HttpURLConnection>(callable) {
             @Override
             protected void done() {
                 try {
@@ -114,7 +122,7 @@ public class RequestTaskProxy {
             }
         };
 
-        EasyThreadPools.executor(mFuture);
+        EasyThreadPools.executor(mFutureTask);
     }
 
     private void callError(final Throwable e) {
@@ -122,7 +130,7 @@ public class RequestTaskProxy {
             @Override
             public void run() {
                 if (mBaseEasyCallback != null) {
-                    mFuture.cancel(false);
+                    mFutureTask.cancel(false);
                     mBaseEasyCallback.onFailure(mEasyCall, e);
                 }
             }
@@ -144,8 +152,8 @@ public class RequestTaskProxy {
 
 
     public void cancel() {
-        if (mFuture != null && !mFuture.isCancelled() && !mFuture.isDone()) {
-            mFuture.cancel(true);
+        if (mFutureTask != null && !mFutureTask.isCancelled() && !mFutureTask.isDone()) {
+            mFutureTask.cancel(true);
             Util.Logger.w(TAG, " Cancelled Http Task:" + mRequest.toString());
         }
 
