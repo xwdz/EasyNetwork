@@ -21,6 +21,9 @@ public class EasyNetworkConfig {
     private int retryCount = 3;
     // 是否需要打开重试机制
     private boolean isOpenRetry = true;
+    //
+    private long retryDelayedMillis = 300;
+
 
     public int getRetryCount() {
         return retryCount;
@@ -32,6 +35,14 @@ public class EasyNetworkConfig {
 
     public void addIntercepts(InterceptRequest interceptRequest) {
         this.interceptRequests.add(interceptRequest);
+    }
+
+    public long getRetryDelayedMillis() {
+        return retryDelayedMillis;
+    }
+
+    public void setRetryDelayedMillis(long retryDelayedMillis) {
+        this.retryDelayedMillis = retryDelayedMillis;
     }
 
     public List<InterceptRequest> getInterceptRequests() {

@@ -95,7 +95,7 @@ public class RequestTaskProxy {
                         if (mRetryCount.getAndIncrement() < mConfig.getRetryCount()) {
                             Util.Logger.w(TAG, "RetryCount:" + mRetryCount.get());
                             try {
-                                Thread.sleep(300);
+                                Thread.sleep(mConfig.getRetryDelayedMillis());
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
