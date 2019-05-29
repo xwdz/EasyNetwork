@@ -18,10 +18,9 @@ public class APISignatureIntercept implements InterceptRequest {
         HashMap<String, String> params = new HashMap<>();
         HashMap<String, String> headers = new HashMap<>();
 
-        // todo  加密 参数 or header or url
+        // todo  统一加密 param or header or url
         Request realRequest = new Request.Builder()
                 .url(request.url)
-                .method(request.method)
                 .tag(request.tag)
                 .addHeaders(headers)
                 .addParams(params)

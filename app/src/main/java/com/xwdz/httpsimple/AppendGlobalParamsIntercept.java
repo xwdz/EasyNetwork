@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 添加所有请求公共参数
  * @author xingwei.huang (xwdz9989@gmail.com)
  * @since v1.0.0
  */

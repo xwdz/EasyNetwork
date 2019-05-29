@@ -16,7 +16,7 @@
 
 ### Download
 
-[click here download jar](https://bintray.com/quinnhuang/widget/EasyNetwork#files)
+[强烈建议下载jar包依赖 | Click download jar](https://bintray.com/quinnhuang/widget/EasyNetwork#files)
 
 
 ### 使用
@@ -52,6 +52,7 @@
                 .url("ur")
                 .post() // or get
                 .tag("TAG")
+                .addHeader("key","value")
                 .addParam("key", "value")
                 .build();
  // send Request          
@@ -62,7 +63,7 @@
          }
  
          @Override
-         public void onFailure(Throwable error) {
+         public void onFailure(EasyCall easyCall,Throwable error) {
              Util.Logger.w("tag", "err:" + error.toString());
              mLogView.setText(error.toString());
          }
@@ -82,6 +83,13 @@
 
 
 ### ChangedLog
+
+#### `1.0.2`
+- 添加自动重定向机制
+- 添加自动重试机制
+- `IBaseEasyCallback#onResponse()#onFailure()`新增参数`EasyCall`类,`EasyCall`目前仅仅包装了一些请求信息.
+`
+
 
 
 

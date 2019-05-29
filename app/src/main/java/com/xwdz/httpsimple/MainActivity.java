@@ -14,9 +14,6 @@ import com.xwdz.http.core.EasyCall;
 import com.xwdz.http.core.Request;
 
 import java.io.File;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,28 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
         mLogView = findViewById(R.id.logText);
         mProgressBar = findViewById(R.id.progressBar);
-
-        final FutureTask<String> futureTask = new FutureTask<String>(new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                Util.Logger.w(Util.Logger.TAG, "-----");
-                Thread.sleep(10000);
-                return "done";
-            }
-        }) {
-            @Override
-            protected void done() {
-                super.done();
-                try {
-                    Util.Logger.w(Util.Logger.TAG, "done" + get());
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
 
 
         findViewById(R.id.get).setOnClickListener(new View.OnClickListener() {
@@ -73,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 testPOST();
             }
         });
-
-
-
 
     }
 
