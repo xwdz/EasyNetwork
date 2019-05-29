@@ -1,5 +1,7 @@
 package com.xwdz.http.callback;
 
+import com.xwdz.http.core.EasyCall;
+
 import java.net.HttpURLConnection;
 
 /**
@@ -8,9 +10,9 @@ import java.net.HttpURLConnection;
  */
 public interface IBaseEasyCallback {
 
-    void onResponse(HttpURLConnection httpURLConnection);
+    void onResponse(EasyCall call, HttpURLConnection httpURLConnection);
 
-    void onFailure(Throwable error);
+    void onFailure(EasyCall call, Throwable error);
 
     void onCancel();
 }

@@ -104,7 +104,7 @@ public class Util {
 
         public static void w(String tag, String message) {
             if (EasyNetworkConfig.isDebug) {
-                Log.w(TAG, "[" + tag + "]" + message);
+                Log.w(TAG, "[" + tag + "] " + message);
             }
         }
 

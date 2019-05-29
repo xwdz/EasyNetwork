@@ -10,6 +10,7 @@ import com.xwdz.http.EasyNetwork;
 import com.xwdz.http.Util;
 import com.xwdz.http.callback.FileEasyCallbackImpl;
 import com.xwdz.http.callback.StringEasyCallbackImpl;
+import com.xwdz.http.core.EasyCall;
 import com.xwdz.http.core.Request;
 
 import java.io.File;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Throwable error) {
+                    public void onFailure(EasyCall easyCall, Throwable error) {
                         mLogView.setText(error.toString());
                     }
                 });
@@ -102,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Throwable error) {
-                Util.Logger.w("tag", "err:" + error.toString());
+            public void onFailure(EasyCall easyCall, Throwable error) {
                 mLogView.setText(error.toString());
             }
 
@@ -131,8 +131,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Throwable error) {
-                Util.Logger.w("tag", "err:" + error.toString());
+            public void onFailure(EasyCall easyCall, Throwable error) {
                 mLogView.setText(error.toString());
             }
 

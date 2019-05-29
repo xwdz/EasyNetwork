@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.xwdz.http.Util;
+import com.xwdz.http.core.EasyCall;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -18,8 +19,8 @@ public abstract class StringEasyCallbackImpl extends BaseEasyCallbackImpl {
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
-    public void onResponse(final HttpURLConnection httpURLConnection) {
-
+    public void onResponse(final EasyCall call, final HttpURLConnection httpURLConnection) {
+        super.onResponse(call, httpURLConnection);
         InputStream is = null;
         ByteArrayOutputStream out = null;
         try {
@@ -47,7 +48,7 @@ public abstract class StringEasyCallbackImpl extends BaseEasyCallbackImpl {
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    onFailure(e);
+                    onFailure(call, e);
                 }
             });
         } finally {

@@ -1,6 +1,7 @@
 package com.xwdz.http.callback;
 
 import com.xwdz.http.Util;
+import com.xwdz.http.core.EasyCall;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,7 +21,7 @@ public abstract class FileEasyCallbackImpl extends BaseEasyCallbackImpl {
     }
 
     @Override
-    public void onResponse(HttpURLConnection connection) {
+    public void onResponse(final EasyCall call, HttpURLConnection connection) {
         FileOutputStream out = null;
         InputStream is = null;
 
@@ -65,7 +66,7 @@ public abstract class FileEasyCallbackImpl extends BaseEasyCallbackImpl {
             Util.postToMain(new Runnable() {
                 @Override
                 public void run() {
-                    onFailure(e);
+                    onFailure(call, e);
                 }
             });
 

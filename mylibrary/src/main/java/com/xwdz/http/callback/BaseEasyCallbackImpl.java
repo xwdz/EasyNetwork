@@ -1,5 +1,6 @@
 package com.xwdz.http.callback;
 
+import com.xwdz.http.core.EasyCall;
 import com.xwdz.http.error.EasyHTTPException;
 
 import java.net.HttpURLConnection;
@@ -10,16 +11,20 @@ import java.net.HttpURLConnection;
  */
 public abstract class BaseEasyCallbackImpl implements IBaseEasyCallback {
 
+    private static final String TAG = BaseEasyCallbackImpl.class.getSimpleName();
+
     private volatile boolean isCancelled = false;
 
-
     @Override
-    public void onResponse(HttpURLConnection httpURLConnection) {
-
+    public void onResponse(EasyCall call, HttpURLConnection httpURLConnection) {
+        if (httpURLConnection == null) {
+            onFailure(call, new NullPointerException("HttpURLConnection is null"));
+        }
     }
 
     @Override
-    public void onFailure(Throwable error) {
+    public void onFailure(EasyCall call, Throwable error) {
+        //
 
     }
 

@@ -39,6 +39,9 @@ public class EasyNetwork {
         this.mConfig = config;
     }
 
+    public EasyNetworkConfig getConfig() {
+        return mConfig;
+    }
 
     public void sendRequest(Request request, IBaseEasyCallback baseEasyCallback) {
         if (request == null) {
