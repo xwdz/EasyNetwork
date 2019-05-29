@@ -16,15 +16,26 @@ public class EasyNetworkConfig {
 
     private int connectTimeoutMillis = 15 * 1000;
     private int readTimeoutMillis = 15 * 1000;
-    private List<InterceptRequest> mInterceptRequests = new ArrayList<>();
+    private List<InterceptRequest> interceptRequests = new ArrayList<>();
+    // 失败重试次数
+    private int retryCount = 3;
+    // 是否需要打开重试机制
+    private boolean isOpenRetry = true;
 
+    public int getRetryCount() {
+        return retryCount;
+    }
+
+    public void setRetryCount(int retryCount) {
+        this.retryCount = retryCount;
+    }
 
     public void addIntercepts(InterceptRequest interceptRequest) {
-        this.mInterceptRequests.add(interceptRequest);
+        this.interceptRequests.add(interceptRequest);
     }
 
     public List<InterceptRequest> getInterceptRequests() {
-        return mInterceptRequests;
+        return interceptRequests;
     }
 
 
@@ -36,6 +47,13 @@ public class EasyNetworkConfig {
         this.readTimeoutMillis = readTimeoutMillis;
     }
 
+    public boolean isOpenRetry() {
+        return isOpenRetry;
+    }
+
+    public void setOpenRetry(boolean openRetry) {
+        isOpenRetry = openRetry;
+    }
 
     public int getConnectTimeoutMillis() {
         return connectTimeoutMillis;

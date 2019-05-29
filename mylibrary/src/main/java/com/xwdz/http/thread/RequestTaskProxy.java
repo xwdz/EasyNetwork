@@ -2,6 +2,7 @@ package com.xwdz.http.thread;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 
 import com.xwdz.http.EasyNetworkConfig;
 import com.xwdz.http.Util;
@@ -10,6 +11,7 @@ import com.xwdz.http.core.HttpUrlConnection;
 import com.xwdz.http.core.Request;
 import com.xwdz.http.error.EasyHTTPException;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.concurrent.Callable;
 import java.util.concurrent.FutureTask;
@@ -25,6 +27,7 @@ public class RequestTaskProxy {
 
     private final AtomicBoolean mCancelled = new AtomicBoolean();
     private final AtomicBoolean mTaskInvoked = new AtomicBoolean();
+    private final AtomicBoolean isError = new AtomicBoolean();
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -32,6 +35,8 @@ public class RequestTaskProxy {
     private IBaseEasyCallback mBaseEasyCallback;
     private FutureTask<HttpURLConnection> mFuture;
     private EasyNetworkConfig mConfig;
+
+    private volatile int mRetryCount = 1;
 
 
     public RequestTaskProxy(EasyNetworkConfig config, Request request, IBaseEasyCallback baseEasyCallback) {
@@ -49,14 +54,30 @@ public class RequestTaskProxy {
         final Callable<HttpURLConnection> callable = new Callable<HttpURLConnection>() {
             @Override
             public HttpURLConnection call() {
-                Util.Logger.w(TAG, "ThreadName[" + Thread.currentThread().getName() + "] Running." + mRequest.toString());
-                HttpURLConnection result = null;
+                Util.Logger.w(TAG, "isRetry [" + (mRetryCount > 1) + "]");
+                Util.Logger.w(TAG, "threadName [" + Thread.currentThread().getName() + "] Running.");
+                Util.Logger.w(TAG, "request:" + mRequest.toString());
+                HttpURLConnection connection = null;
                 try {
                     mTaskInvoked.set(true);
-                    result = HttpUrlConnection.execute(mRequest, mConfig);
+                    connection = HttpUrlConnection.execute(mRequest, mConfig);
+                    if (connection != null) {
+                        final int code = connection.getResponseCode();
+                        if (code >= 300 && code < 400) {
+                            //重定向
+                            if (!TextUtils.isEmpty(connection.getHeaderField("Location"))) {
+                                mRequest.url = connection.getHeaderField("Location");
+                                Util.Logger.w(TAG, "Redirect to url:" + mRequest.url);
+                                start();
+                            }
+                        }
+                    }
                     Util.Logger.w(TAG, "Connection success!");
                 } catch (final EasyHTTPException e) {
+                    isError.set(true);
                     mCancelled.set(true);
+
+                    //
                     postMainThread(new Runnable() {
                         @Override
                         public void run() {
@@ -66,10 +87,24 @@ public class RequestTaskProxy {
                             }
                         }
                     });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    mCancelled.set(true);
+                    isError.set(true);
+                } finally {
+                    if (isError.get() && mConfig.isOpenRetry()) {
+                        if (mRetryCount < mConfig.getRetryCount()) {
+                            mRetryCount++;
+                            Util.Logger.w(TAG, "retry network request [" + mRetryCount + "]");
+                            start();
+                        }
+                    }
                 }
-                return result;
+
+                return connection;
             }
         };
+
         mFuture = new FutureTask<HttpURLConnection>(callable) {
             @Override
             protected void done() {
@@ -79,7 +114,6 @@ public class RequestTaskProxy {
                     postResultIfNotInvoked(null);
                 }
             }
-
         };
 
         EasyThreadPools.executor(mFuture);
