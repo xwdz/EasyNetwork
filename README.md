@@ -27,14 +27,29 @@
 在您的`Application#OnCreate`添加配置
 
 ```
+// Request拦截器
+public interface InterceptRequest {
 
- EasyNetworkConfig config = new EasyNetworkConfig();
- // 添加 公共参数拦截器
- config.addIntercepts(new AppendParamsIntercept());
- // 添加 统一加密所有请求
- config.addIntercepts(new APISignatureIntercept());
+    Request onInterceptRequest(Request request);
 
- EasyNetwork.getImpl().initializeConfig(config);
+}
+public class App extends Application {
+
+    @Override
+    public void onCreate() {
+      super.onCreate();
+      
+        EasyNetworkConfig config = new EasyNetworkConfig(this);
+        // 添加 公共参数拦截器
+        config.addIntercepts(new AppendGlobalParamsIntercept());
+        // 添加 统一加密所有请求
+        config.addIntercepts(new APISignatureIntercept());
+        EasyNetwork.getImpl().initializeConfig(config);
+        
+        // 如若不需要使用拦截器功能 
+        // 直接EasyNetwork.getImpl().initializeConfig(new EasyNetworkConfig(this));
+       
+}
 
 ```
 
@@ -42,6 +57,17 @@
 |:-:|
 |[AppendParamsIntercept](https://github.com/xwdz/EasyNetwork/blob/master/app/src/main/java/com/xwdz/httpsimple/AppendGlobalParamsIntercept.java)|
 |[APISignatureIntercept](https://github.com/xwdz/EasyNetwork/blob/master/app/src/main/java/com/xwdz/httpsimple/APISignatureIntercept.java)|
+
+
+
+**EasyNetworkConfig**
+|属性|说明|
+|:-:|:-:|
+|`setRetryCount(int)`|失败的重试次数|
+|`setOpenRetry(boolean)`|是否需要打开重试功能|
+|`setRetryIntervalMillis(long)`|每次重试的间隔时间|
+|`addIntercepts(InterceptRequest)`|自定义的各种拦截器|
+  ...
 
 
 `EasyNetwork`内部维护了一个单例`EasyNetwork.getImpl().sendRequest(request,callback)`即可发送请求
@@ -84,7 +110,7 @@
 ### ChangedLog
 
 #### `1.0.2`
-- 添加自动重定向机制
+- 添加自动请求重定向机制
 - 添加自动重试机制
 - `IBaseEasyCallback#onResponse()#onFailure()`新增参数`EasyCall`类,`EasyCall`目前仅仅包装了一些请求信息.
 `
