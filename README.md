@@ -61,13 +61,15 @@ public class App extends Application {
 
 
 **EasyNetworkConfig**
+
 |属性|说明|
 |:-:|:-:|
 |`setRetryCount(int)`|失败的重试次数|
 |`setOpenRetry(boolean)`|是否需要打开重试功能|
 |`setRetryIntervalMillis(long)`|每次重试的间隔时间|
 |`addIntercepts(InterceptRequest)`|自定义的各种拦截器|
-  ...
+
+  // 省略部分属性
 
 
 `EasyNetwork`内部维护了一个单例`EasyNetwork.getImpl().sendRequest(request,callback)`即可发送请求
