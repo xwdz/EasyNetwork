@@ -64,7 +64,7 @@
  
          @Override
          public void onFailure(EasyCall easyCall,Throwable error) {
-             Util.Logger.w("tag", "err:" + error.toString());
+              super.onFailure(easyCall, error);
              mLogView.setText(error.toString());
          }
          
@@ -79,7 +79,6 @@
 
 ### 扩展Callback
 继承`BaseEasyCallbackImpl`即可，完成自己解析、解密、逻辑接口。[Simple Code](https://github.com/xwdz/EasyNetwork/blob/master/mylibrary/src/main/java/com/xwdz/http/callback/FileEasyCallbackImpl.java)
-
 
 
 ### ChangedLog

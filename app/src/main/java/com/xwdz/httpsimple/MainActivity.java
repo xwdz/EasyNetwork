@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(EasyCall easyCall, Throwable error) {
+                super.onFailure(easyCall, error);
                 mLogView.setText(error.toString());
             }
 
@@ -133,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(EasyCall easyCall, Throwable error) {
+                super.onFailure(easyCall, error);
                 mLogView.setText(error.toString());
             }
 

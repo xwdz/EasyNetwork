@@ -1,5 +1,7 @@
 package com.xwdz.http;
 
+import android.content.Context;
+
 import com.xwdz.http.callback.InterceptRequest;
 
 import java.util.ArrayList;
@@ -16,14 +18,25 @@ public class EasyNetworkConfig {
 
     private int connectTimeoutMillis = 15 * 1000;
     private int readTimeoutMillis = 15 * 1000;
+
     private List<InterceptRequest> interceptRequests = new ArrayList<>();
     // 失败重试次数
     private int retryCount = 3;
     // 是否需要打开重试机制
     private boolean isOpenRetry = true;
-    //
-    private long retryDelayedMillis = 300;
+    // 每次重试间隔时间
+    private long retryIntervalMillis = 2000;
 
+    private Context mContext;
+
+
+    public EasyNetworkConfig(Context context) {
+        mContext = context;
+    }
+
+    public Context getContext() {
+        return mContext;
+    }
 
     public int getRetryCount() {
         return retryCount;
@@ -37,12 +50,12 @@ public class EasyNetworkConfig {
         this.interceptRequests.add(interceptRequest);
     }
 
-    public long getRetryDelayedMillis() {
-        return retryDelayedMillis;
+    public long getRetryIntervalMillis() {
+        return retryIntervalMillis;
     }
 
-    public void setRetryDelayedMillis(long retryDelayedMillis) {
-        this.retryDelayedMillis = retryDelayedMillis;
+    public void setRetryIntervalMillis(long retryIntervalMillis) {
+        this.retryIntervalMillis = retryIntervalMillis;
     }
 
     public List<InterceptRequest> getInterceptRequests() {

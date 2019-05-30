@@ -1,7 +1,5 @@
 package com.xwdz.httpsimple;
 
-import android.util.Log;
-
 import com.xwdz.http.callback.InterceptRequest;
 import com.xwdz.http.core.Request;
 
@@ -36,8 +34,6 @@ public class AppendGlobalParamsIntercept implements InterceptRequest {
         Request clone = request.clone();
         clone.params.putAll(params);
         clone.headers.putAll(headers);
-
-        Log.w("EasyHttp", "append params intercept:" + clone.toString());
         return clone;
     }
 }

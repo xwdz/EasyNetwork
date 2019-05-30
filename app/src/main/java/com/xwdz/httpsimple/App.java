@@ -16,7 +16,7 @@ public class App extends Application {
         super.onCreate();
 
 
-        EasyNetworkConfig config = new EasyNetworkConfig();
+        EasyNetworkConfig config = new EasyNetworkConfig(this);
         config.addIntercepts(new AppendGlobalParamsIntercept());
 //        config.addIntercepts(new APISignatureIntercept());
         EasyNetwork.getImpl().initializeConfig(config);

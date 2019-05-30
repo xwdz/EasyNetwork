@@ -57,6 +57,16 @@ public abstract class StringEasyCallbackImpl extends BaseEasyCallbackImpl {
         }
     }
 
+    @Override
+    public void onFailure(EasyCall call, Throwable error) {
+        safeCall(new Runnable() {
+            @Override
+            public void run() {
+                onCompleted();
+            }
+        });
+    }
+
     public abstract void onSuccessful(String data);
 
     public abstract void onCompleted();

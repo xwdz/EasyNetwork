@@ -27,11 +27,9 @@ public class EasyNetwork {
 
 
     private EasyRequestManager mEasyRequestManager;
-
     private EasyNetworkConfig mConfig;
 
     private EasyNetwork() {
-        mConfig = new EasyNetworkConfig();
         mEasyRequestManager = new EasyRequestManager();
     }
 
@@ -65,5 +63,4 @@ public class EasyNetwork {
     public void cancelAll() {
         mEasyRequestManager.performCancelAll();
     }
-
 }
