@@ -24,7 +24,9 @@
 
 #### 自定义拦截器,统一加密、添加公共参数
 
-在您的`Application#OnCreate`添加配置
+`EasyNetwork.getImpl().initializeConfig()`必须传一个`EasyNetworkConfig(Context)`实例
+
+在您的`Application#OnCreate`初始化各种配置.
 
 ```
 // Request拦截器
@@ -40,15 +42,15 @@ public class App extends Application {
       super.onCreate();
       
         EasyNetworkConfig config = new EasyNetworkConfig(this);
+        // 1. 如若不需要使用各种自定义配置直接初始即可
+        EasyNetwork.getImpl().initializeConfig(config); 
+        // 2. 添加各种配置
         // 添加 公共参数拦截器
-        config.addIntercepts(new AppendGlobalParamsIntercept());
+        // config.addIntercepts(new AppendGlobalParamsIntercept());
         // 添加 统一加密所有请求
-        config.addIntercepts(new APISignatureIntercept());
+        // config.addIntercepts(new APISignatureIntercept());
+        // config.setRetryCount(5) 
         EasyNetwork.getImpl().initializeConfig(config);
-        
-        // 如若不需要使用拦截器功能 
-        // 直接EasyNetwork.getImpl().initializeConfig(new EasyNetworkConfig(this));
-       
 }
 
 ```
@@ -57,7 +59,6 @@ public class App extends Application {
 |:-:|
 |[AppendParamsIntercept](https://github.com/xwdz/EasyNetwork/blob/master/app/src/main/java/com/xwdz/httpsimple/AppendGlobalParamsIntercept.java)|
 |[APISignatureIntercept](https://github.com/xwdz/EasyNetwork/blob/master/app/src/main/java/com/xwdz/httpsimple/APISignatureIntercept.java)|
-
 
 
 **EasyNetworkConfig**
