@@ -1,6 +1,6 @@
 ### EasyNetwork
 
-![logo](./jar/logo.jpg)
+![logo](./jpg/logo.jpg)
 
 
 [![DownloadLastVersion](https://api.bintray.com/packages/quinnhuang/widget/EasyNetwork/images/download.svg)](https://bintray.com/quinnhuang/widget/EasyNetwork/_latestVersion)
