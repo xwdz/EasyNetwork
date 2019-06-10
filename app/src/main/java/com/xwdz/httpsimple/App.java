@@ -16,10 +16,12 @@ public class App extends Application {
         super.onCreate();
 
 
-        EasyNetworkConfig config = new EasyNetworkConfig(this);
+        EasyNetworkConfig config = new EasyNetworkConfig();
         config.addIntercepts(new AppendGlobalParamsIntercept());
+        config.setOpenRetry(true);
+        config.setRetryIntervalMillis(3000);
 //        config.addIntercepts(new APISignatureIntercept());
-        EasyNetwork.getImpl().initializeConfig(config);
+        EasyNetwork.initializeConfig(config);
 
 
 //        Retrofit retrofit = new Retrofit.Builder()
@@ -41,7 +43,6 @@ public class App extends Application {
 //
 //                    }
 //                });
-
 
 
     }

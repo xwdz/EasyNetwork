@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        EasyNetwork.getImpl().cancelRequest("TAG");
+        EasyNetwork.cancelRequest("TAG");
     }
 
     public void testGETDownloader() {
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 .tag("TAG")
                 .build();
 
-        EasyNetwork.getImpl().sendRequest(request,
+        EasyNetwork.sendRequest(request,
                 new FileEasyCallbackImpl(
                         Util.getDownloaderDir(this, "easy").getAbsolutePath(),
                         "test.apk") {
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 .addHeader("custom_test_header", "value")
                 .build();
 
-        EasyNetwork.getImpl().sendRequest(request, new StringEasyCallbackImpl() {
+        EasyNetwork.sendRequest(request, new StringEasyCallbackImpl() {
             @Override
             public void onSuccessful(String data) {
                 mLogView.setText(stringToJSON(data));
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 .addHeader("custom_test_header", "value")
                 .build();
 
-        EasyNetwork.getImpl().sendRequest(request, new StringEasyCallbackImpl() {
+        EasyNetwork.sendRequest(request, new StringEasyCallbackImpl() {
             @Override
             public void onSuccessful(String data) {
                 mLogView.setText(stringToJSON(data));

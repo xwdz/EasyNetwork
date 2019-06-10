@@ -12,36 +12,25 @@ import com.xwdz.http.core.Request;
  */
 public class EasyNetwork {
 
-    private static EasyNetwork sEasyNetwork;
 
-    public static EasyNetwork getImpl() {
-        if (sEasyNetwork == null) {
-            synchronized (EasyNetwork.class) {
-                if (sEasyNetwork == null) {
-                    sEasyNetwork = new EasyNetwork();
-                }
-            }
-        }
-        return sEasyNetwork;
-    }
+    private static EasyRequestManager sEasyRequestManager = new EasyRequestManager();
+    private static EasyNetworkConfig sConfig = new EasyNetworkConfig();
 
 
-    private EasyRequestManager mEasyRequestManager;
-    private EasyNetworkConfig mConfig;
 
     private EasyNetwork() {
-        mEasyRequestManager = new EasyRequestManager();
+
     }
 
-    public void initializeConfig(EasyNetworkConfig config) {
-        this.mConfig = config;
+    public static void initializeConfig(EasyNetworkConfig config) {
+        sConfig = config;
     }
 
-    public EasyNetworkConfig getConfig() {
-        return mConfig;
+    public static EasyNetworkConfig getConfig() {
+        return sConfig;
     }
 
-    public void sendRequest(Request request, IBaseEasyCallback baseEasyCallback) {
+    public static void sendRequest(Request request, IBaseEasyCallback baseEasyCallback) {
         if (request == null) {
             throw new NullPointerException("request == null");
         }
@@ -53,14 +42,14 @@ public class EasyNetwork {
         request.tag = request.tag == null ? request.url : request.tag;
 
 
-        mEasyRequestManager.performRequest(mConfig, request, baseEasyCallback);
+        sEasyRequestManager.performRequest(sConfig, request, baseEasyCallback);
     }
 
-    public void cancelRequest(Object tag) {
-        mEasyRequestManager.performCancelRequest(tag);
+    public static void cancelRequest(Object tag) {
+        sEasyRequestManager.performCancelRequest(tag);
     }
 
-    public void cancelAll() {
-        mEasyRequestManager.performCancelAll();
+    public static void cancelAll() {
+        sEasyRequestManager.performCancelAll();
     }
 }

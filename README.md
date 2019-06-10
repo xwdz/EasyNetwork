@@ -24,7 +24,7 @@
 
 #### 自定义拦截器,统一加密、添加公共参数
 
-`EasyNetwork.getImpl().initializeConfig()`必须传一个`EasyNetworkConfig(Context)`实例
+`EasyNetwork.initializeConfig()`必须传一个`EasyNetworkConfig(Context)`实例
 
 在您的`Application#OnCreate`初始化各种配置.
 
@@ -41,16 +41,18 @@ public class App extends Application {
     public void onCreate() {
       super.onCreate();
       
-        EasyNetworkConfig config = new EasyNetworkConfig(this);
-        // 1. 如若不需要使用各种自定义配置直接初始即可
-        EasyNetwork.getImpl().initializeConfig(config); 
-        // 2. 添加各种配置
+        // 如果需要添加各种自定义配置，传入一个EasyNetworkConfig即可
+        EasyNetworkConfig config = new EasyNetworkConfig();
         // 添加 公共参数拦截器
-        // config.addIntercepts(new AppendGlobalParamsIntercept());
+        config.addIntercepts(new AppendGlobalParamsIntercept());
         // 添加 统一加密所有请求
-        // config.addIntercepts(new APISignatureIntercept());
-        // config.setRetryCount(5) 
-        EasyNetwork.getImpl().initializeConfig(config);
+        config.addIntercepts(new APISignatureIntercept());
+        // 重试次数
+        config.setRetryCount(5)
+        // 重试时间间隔
+        config.setRetryIntervalMillis(3000);
+         
+        EasyNetwork.initializeConfig(config);
 }
 
 ```
@@ -73,7 +75,7 @@ public class App extends Application {
   // 省略部分属性
 
 
-`EasyNetwork`内部维护了一个单例`EasyNetwork.getImpl().sendRequest(request,callback)`即可发送请求
+`EasyNetwork`内部维护了一个单例`EasyNetwork.sendRequest(request,callback)`即可发送请求
 
 ```
 
@@ -85,7 +87,7 @@ public class App extends Application {
                 .addParam("key", "value")
                 .build();
  // send Request          
- EasyNetwork.getImpl().sendRequest(request, new StringEasyCallbackImpl() {
+ EasyNetwork.sendRequest(request, new StringEasyCallbackImpl() {
          @Override
          public void onSuccessful(String data) {
              mLogView.setText(data);
@@ -103,7 +105,7 @@ public class App extends Application {
      });   
      
     // cancel Request
-    EasyNetwork.getImpl().cancelRequest(request)               
+    EasyNetwork.cancelRequest(request)               
 ```
 
 ### 扩展Callback
@@ -111,6 +113,10 @@ public class App extends Application {
 
 
 ### ChangedLog
+
+#### `1.0.3`
+- 不再使用单例
+- 不需要传入context
 
 #### `1.0.2`
 - 添加自动请求重定向机制

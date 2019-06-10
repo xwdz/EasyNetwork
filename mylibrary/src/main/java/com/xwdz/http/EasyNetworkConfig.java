@@ -1,7 +1,5 @@
 package com.xwdz.http;
 
-import android.content.Context;
-
 import com.xwdz.http.callback.InterceptRequest;
 
 import java.util.ArrayList;
@@ -25,18 +23,7 @@ public class EasyNetworkConfig {
     // 是否需要打开重试机制
     private boolean isOpenRetry = true;
     // 每次重试间隔时间
-    private long retryIntervalMillis = 2000;
-
-    private Context mContext;
-
-
-    public EasyNetworkConfig(Context context) {
-        mContext = context;
-    }
-
-    public Context getContext() {
-        return mContext;
-    }
+    private long retryIntervalMillis = 3000;
 
     public int getRetryCount() {
         return retryCount;
