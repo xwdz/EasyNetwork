@@ -73,8 +73,7 @@ public class App extends Application {
 
   // 省略部分属性
 
-
-`EasyNetwork`内部维护了一个单例`EasyNetwork.sendRequest(request,callback)`即可发送请求
+使用`EasyNetwork.sendRequest(request,callback)`即可发送请求
 
 ```
 
