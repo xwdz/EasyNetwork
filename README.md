@@ -2,7 +2,6 @@
 
 ![logo](./jpg/logo.jpg)
 
-
 [![DownloadLastVersion](https://api.bintray.com/packages/quinnhuang/widget/EasyNetwork/images/download.svg)](https://bintray.com/quinnhuang/widget/EasyNetwork/_latestVersion)
 
 
@@ -16,7 +15,7 @@
 
 ### Download
 
-[强烈建议下载jar包依赖 | Click download jar](https://bintray.com/quinnhuang/widget/EasyNetwork#files)
+[作为SDK开发者，强烈建议下载jar包依赖，方便混淆 | Click download jar](https://bintray.com/quinnhuang/widget/EasyNetwork#files)
 
 
 ### 使用
